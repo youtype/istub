@@ -1,6 +1,6 @@
 # iStub
 
-Generator and validator for type annotations.
+Validator for type annotations.
 
 - [ ] Stubs generation
 - [x] Code style checking with `flake8`

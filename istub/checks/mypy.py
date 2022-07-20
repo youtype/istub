@@ -16,6 +16,6 @@ class MypyCheck(BaseCheck):
                 raise_errors=True,
             )
         except SubprocessError as e:
-            return e.data
+            return "\n".join(e.data.splitlines()[:-1])
 
         return ""

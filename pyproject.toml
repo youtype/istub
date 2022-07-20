@@ -47,6 +47,9 @@ include = [
     "istub/py.typed",
 ]
 
+[tool.poetry.scripts]
+istub = 'istub.main:main'
+
 [tool.poetry.urls]
 "Documentation" = "https://youtype.github.io/istub/"
 "Source" = "https://github.com/youtype/istub"

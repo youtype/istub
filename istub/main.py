@@ -61,8 +61,11 @@ def main() -> None:
         install(config)
 
     errors: list[BaseException] = []
+    enabled_check_names = [i.NAME for i in args.checks]
     for package in config.packages:
         for check_name in package.enabled_checks:
+            if check_name not in enabled_check_names:
+                continue
             check = get_check_cls(check_name, args.checks)(package)
             logger.info(f"Checking {package.name} with {check.NAME}...")
             try:

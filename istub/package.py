@@ -50,7 +50,7 @@ class Package:
         path = Path(path_str)
         if path.is_absolute():
             return path
-        return self.config_path / path
+        return self.config_path.parent / path
 
     @classmethod
     def deserialize(cls: type[_R], config_path: Path, data: dict[str, Any]) -> _R:

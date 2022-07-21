@@ -45,6 +45,17 @@ def get_check_cls(name: str, checks: list[type[BaseCheck]]) -> type[BaseCheck]:
 
 def main() -> None:
     """
+    Main CLI entrypoint.
+    """
+    try:
+        main_api()
+    except ConfigError as e:
+        setup_logging(logging.INFO).error(f"Configuration error: {e}")
+        exit(1)
+
+
+def main_api() -> None:
+    """
     Main API entrypoint.
     """
     args = parse_args()
@@ -81,6 +92,7 @@ def main() -> None:
                 errors.append(e)
 
     if config.is_updated():
+        logger.info("Saving configuration...")
         config.save()
 
     if errors:
@@ -88,8 +100,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except ConfigError as e:
-        setup_logging(logging.INFO).error(f"Configuration error: {e}")
-        exit(1)
+    main()

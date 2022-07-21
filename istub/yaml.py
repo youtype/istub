@@ -27,6 +27,7 @@ def dumps(data: Any) -> str:
         data,
         Dumper=MyDumper,
         indent=2,
+        sort_keys=False,
     )
 
 

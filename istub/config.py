@@ -19,9 +19,12 @@ class Config:
 
     def __init__(self, path: Path) -> None:
         self.path = path
-        self.data = loads(path.read_text())
         try:
-            self._packages = [Package.deserialize(i) for i in self.data["packages"]]
+            self.data = loads(path.read_text())
+        except Exception as e:
+            raise ConfigError(f"Cannot read config: {e}")
+        try:
+            self._packages = [Package.deserialize(self.path, i) for i in self.data["packages"]]
         except ValueError as e:
             raise ConfigError(e)
         self._map = {i.name: i for i in self._packages}

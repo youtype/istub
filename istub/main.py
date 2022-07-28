@@ -66,7 +66,7 @@ def main_api() -> None:
     if args.build and config.build:
         logger.info("Building requirements...")
         for build_cmd in config.build:
-            logger.debug(f"  Running {' '.join(build_cmd)}")
+            logger.debug(f"  Running {build_cmd}")
             check_call(shlex.split(build_cmd))
     if args.install:
         install(config)

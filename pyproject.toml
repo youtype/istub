@@ -58,6 +58,7 @@ istub = 'istub.main:main'
 [tool.poetry.dependencies]
 python = "^3.10"
 pip = "*"
+pyyaml = "*"
 
 [tool.poetry.dev-dependencies]
 isort = "*"
@@ -66,7 +67,6 @@ black = "*"
 flake8 = "*"
 vulture = "*"
 twine = "*"
-pyyaml = "*"
 types-pyyaml = "*"
 
 [build-system]

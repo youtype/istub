@@ -21,11 +21,11 @@ class MyDumper(SafeDumper):
             return self.represent_scalar("tag:yaml.org,2002:str", data, style="|")
         return super().represent_str(data)
 
-    def increase_indent(self, flow: bool = False, indentless: bool = False) -> Any:
+    def increase_indent(self, flow: bool = False, indentless: bool = False) -> None:
         """
         Add indent for flow collections.
         """
-        return super(MyDumper, self).increase_indent(flow, False)
+        super().increase_indent(flow, False)
 
 
 def dumps(data: Any) -> str:

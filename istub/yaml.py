@@ -25,7 +25,8 @@ class MyDumper(SafeDumper):
         """
         Add indent for flow collections.
         """
-        super().increase_indent(flow, False)
+        indentless = False
+        super().increase_indent(flow, indentless)
 
 
 def dumps(data: Any) -> str:

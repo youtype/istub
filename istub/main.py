@@ -7,7 +7,7 @@ import shlex
 import sys
 
 from istub.checks.base import BaseCheck
-from istub.cli import parse_args
+from istub.cli import CLINamespace, parse_args
 from istub.config import Config
 from istub.constants import LOGGER_NAME
 from istub.exceptions import CheckFailedError, ConfigError
@@ -46,6 +46,45 @@ def path_install(config: Config) -> None:
             check_call(command)
 
 
+def build(config: Config) -> None:
+    """
+    Build requirements.
+    """
+    logger = logging.getLogger(LOGGER_NAME)
+    logger.info("Building requirements...")
+    for build_cmd in config.build:
+        logger.debug(f"Running {build_cmd}")
+        check_call(shlex.split(build_cmd))
+
+
+def check_packages(config: Config, args: CLINamespace) -> list[BaseException]:
+    """
+    Check packages.
+    """
+    logger = logging.getLogger(LOGGER_NAME)
+
+    errors: list[BaseException] = []
+    enabled_check_names = [i.NAME for i in args.checks]
+    for package in config.packages:
+        for check_name in package.enabled_checks:
+            if check_name not in enabled_check_names:
+                continue
+            check = get_check_cls(check_name, args.checks)(package)
+            logger.info(f"Checking {package.name} with {check.NAME}...")
+            try:
+                check.check()
+            except CheckFailedError as e:
+                if args.update:
+                    package.set_snapshot(check.NAME, e.data)
+                    continue
+
+                logger.error(e)
+                for line in e.diff:
+                    logger.error(line)
+                errors.append(e)
+    return errors
+
+
 def get_check_cls(name: str, checks: list[type[BaseCheck]]) -> type[BaseCheck]:
     """
     Get check class by name.
@@ -79,32 +118,11 @@ def main_api() -> None:
     if args.install:
         pip_install(config)
     if args.build and config.build:
-        logger.info("Building requirements...")
-        for build_cmd in config.build:
-            logger.debug(f"  Running {build_cmd}")
-            check_call(shlex.split(build_cmd))
+        build(config)
     if args.install:
         path_install(config)
 
-    errors: list[BaseException] = []
-    enabled_check_names = [i.NAME for i in args.checks]
-    for package in config.packages:
-        for check_name in package.enabled_checks:
-            if check_name not in enabled_check_names:
-                continue
-            check = get_check_cls(check_name, args.checks)(package)
-            logger.info(f"Checking {package.name} with {check.NAME}...")
-            try:
-                check.check()
-            except CheckFailedError as e:
-                if args.update:
-                    package.set_snapshot(check.NAME, e.data)
-                    continue
-
-                logger.error(e)
-                for line in e.diff:
-                    logger.error(line)
-                errors.append(e)
+    errors = check_packages(config, args)
 
     if config.is_updated():
         logger.info("Saving configuration...")

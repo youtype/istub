@@ -1,5 +1,3 @@
-import sys
-
 from istub.checks.base import BaseCheck
 
 
@@ -9,7 +7,7 @@ class Flake8Check(BaseCheck):
     def run(self) -> str:
         return self.get_call_output(
             [
-                sys.executable,
+                self.python_path,
                 "-m",
                 "flake8",
                 "--ignore",

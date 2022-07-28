@@ -1,13 +1,15 @@
 import difflib
 import logging
 import shlex
+import sys
 from abc import ABC, abstractmethod
+from pathlib import Path
 
 from istub.constants import LOGGER_NAME
 from istub.exceptions import CheckFailedError
 from istub.package import Package
 from istub.subprocess import get_call_output
-from istub.utils import cleanup_output
+from istub.utils import cleanup_output, shorten_path
 
 
 class BaseCheck(ABC):
@@ -54,3 +56,10 @@ class BaseCheck(ABC):
         """
         self.logger.debug(shlex.join(cmd))
         return get_call_output(cmd, capture_stderr, raise_errors)
+
+    @property
+    def python_path(self) -> str:
+        """
+        Python executable path.
+        """
+        return shorten_path(Path(sys.executable))

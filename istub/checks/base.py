@@ -1,10 +1,12 @@
 import difflib
 import logging
+import shlex
 from abc import ABC, abstractmethod
 
 from istub.constants import LOGGER_NAME
 from istub.exceptions import CheckFailedError
 from istub.package import Package
+from istub.subprocess import get_call_output
 from istub.utils import cleanup_output
 
 
@@ -13,7 +15,7 @@ class BaseCheck(ABC):
 
     def __init__(self, package: Package) -> None:
         self.package = package
-        self.logger = logging.Logger(LOGGER_NAME)
+        self.logger = logging.getLogger(LOGGER_NAME)
 
     def check(self) -> None:
         output = self.run()
@@ -40,3 +42,15 @@ class BaseCheck(ABC):
         if data == old_data:
             return []
         return list(difflib.ndiff(old_data, data))
+
+    def get_call_output(
+        self,
+        cmd: list[str],
+        capture_stderr: bool = False,
+        raise_errors: bool = False,
+    ) -> str:
+        """
+        Run a command and return its output.
+        """
+        self.logger.debug(shlex.join(cmd))
+        return get_call_output(cmd, capture_stderr, raise_errors)

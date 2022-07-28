@@ -84,7 +84,7 @@ class Config:
         Serialize config to dict.
         """
         return {
-            "packages": [i.serialize() for i in self.packages],
+            "packages": [i.serialize() for i in self._packages],
         }
 
     def is_updated(self) -> bool:

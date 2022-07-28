@@ -1,18 +1,18 @@
 import json
 
 from istub.checks.base import BaseCheck
-from istub.subprocess import get_call_output
 
 
 class PyrightCheck(BaseCheck):
     NAME = "pyright"
 
     def run(self) -> str:
-        output = get_call_output(
-            ["npx", "pyright", self.package.path.as_posix(), "--outputjson"],
-            capture_stderr=False,
-        )
-        errors = json.loads(output).get("generalDiagnostics", [])
+        command = ["npx", "pyright", self.package.path.as_posix(), "--outputjson"]
+        output = self.get_call_output(command, capture_stderr=False)
+        try:
+            errors = json.loads(output).get("generalDiagnostics", [])
+        except json.JSONDecodeError:
+            return self.get_call_output(command, capture_stderr=True)
 
         if not errors:
             return ""

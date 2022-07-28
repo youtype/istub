@@ -1,14 +1,13 @@
 import sys
 
 from istub.checks.base import BaseCheck
-from istub.subprocess import get_call_output
 
 
 class Flake8Check(BaseCheck):
     NAME = "flake8"
 
     def run(self) -> str:
-        return get_call_output(
+        return self.get_call_output(
             [
                 sys.executable,
                 "-m",

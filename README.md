@@ -20,8 +20,8 @@ packages:
   - name: mylib
     path: ./mylib-stubs
     checks:
-        mypy: true
-        stubtest: true
+      mypy: true
+      stubtest: true
 ```
 
 Run checker:
@@ -34,6 +34,26 @@ You can create a whitelist of acceptable errors:
 
 ```bash
 python -m istub --update
+```
+
+### Custom configuration
+
+```yaml
+packages:
+  - name: mylib
+    path: ./mylib-stubs
+    checks:
+      mypy: true
+      stubtest: true
+      flake8: false
+      pyright: false
+    pip_install:
+      - pypi_dependency
+      - pypi_dependency2
+    pip_uninstall:
+      - dependency_to_uninstall
+    build:
+      - ./build_cmd.sh
 ```
 
 ## Latest changes

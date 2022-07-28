@@ -15,22 +15,35 @@ from istub.logger import setup_logging
 from istub.subprocess import check_call
 
 
-def install(config: Config) -> None:
+def pip_install(config: Config) -> None:
+    """
+    Install pip requirements.
+    """
+    logger = logging.getLogger(LOGGER_NAME)
+    if config.pip_uninstall:
+        logger.info("Uninstalling pip packages...")
+        command = [sys.executable, "-m", "pip", "uninstall", *config.pip_uninstall]
+        logger.debug(shlex.join(command))
+        check_call(command)
+    if config.pip_install:
+        logger.info("Installing pip requirements...")
+        command = [sys.executable, "-m", "pip", "install", *config.pip_install]
+        logger.debug(shlex.join(command))
+        check_call(command)
+
+
+def path_install(config: Config) -> None:
     """
     Install requirements.
     """
-    logger = logging.Logger(LOGGER_NAME)
-    if config.pip_uninstall:
-        logger.info("Uninstalling pip packages...")
-        check_call([sys.executable, "-m", "pip", "uninstall", *config.pip_uninstall])
-    if config.pip_install:
-        logger.info("Installing pip requirements...")
-        check_call([sys.executable, "-m", "pip", "install", *config.pip_install])
+    logger = logging.getLogger(LOGGER_NAME)
     if config.path_install:
         logger.info("Installing requirements...")
         for path_package in config.path_install:
-            logger.debug(f"  Installing {path_package.as_posix()}")
-            check_call([sys.executable, "-m", "pip", "install", path_package.as_posix()])
+            logger.debug(f"Installing {path_package.as_posix()}")
+            command = [sys.executable, "-m", "pip", "install", path_package.as_posix()]
+            logger.debug(shlex.join(command))
+            check_call(command)
 
 
 def get_check_cls(name: str, checks: list[type[BaseCheck]]) -> type[BaseCheck]:
@@ -63,13 +76,15 @@ def main_api() -> None:
     config = args.config
     if args.packages:
         config.filter(args.packages)
+    if args.install:
+        pip_install(config)
     if args.build and config.build:
         logger.info("Building requirements...")
         for build_cmd in config.build:
             logger.debug(f"  Running {build_cmd}")
             check_call(shlex.split(build_cmd))
     if args.install:
-        install(config)
+        path_install(config)
 
     errors: list[BaseException] = []
     enabled_check_names = [i.NAME for i in args.checks]

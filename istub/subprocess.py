@@ -2,21 +2,21 @@
 Utils for subprocess calls.
 """
 import logging
-import shlex
 import subprocess
 import tempfile
 from pathlib import Path
+from typing import List, Sequence
 
 from istub.constants import LOGGER_NAME
 from istub.exceptions import SubprocessError
 
 
-def check_call(command: list[str]) -> None:
+def check_call(command: List[str]) -> None:
     """
     Check command exit code and output on error.
     """
     logger = logging.getLogger(LOGGER_NAME)
-    logger.debug(shlex.join(command))
+    logger.debug(" ".join(command))
     try:
         subprocess.check_output(command, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as e:
@@ -27,7 +27,7 @@ def check_call(command: list[str]) -> None:
 
 
 def get_call_output(
-    cmd: list[str],
+    cmd: Sequence[str],
     capture_stderr: bool = False,
     raise_errors: bool = False,
 ) -> str:

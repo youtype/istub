@@ -3,7 +3,7 @@ Stubs package data.
 """
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterator, TypeVar
+from typing import Any, Dict, Iterable, Iterator, List, Type, TypeVar
 
 _R = TypeVar("_R", bound="Package")
 
@@ -17,12 +17,12 @@ class Package:
     name: str
     path_str: str
     config_path: Path
-    checks: dict[str, bool] = field(default_factory=dict)
-    path_str_install: list[str] = field(default_factory=list)
-    pip_install: list[str] = field(default_factory=list)
-    pip_uninstall: list[str] = field(default_factory=list)
-    build: list[str] = field(default_factory=list)
-    snapshots: dict[str, str] = field(default_factory=dict)
+    checks: Dict[str, bool] = field(default_factory=dict)
+    path_str_install: List[str] = field(default_factory=list)
+    pip_install: List[str] = field(default_factory=list)
+    pip_uninstall: List[str] = field(default_factory=list)
+    build: List[str] = field(default_factory=list)
+    snapshots: Dict[str, str] = field(default_factory=dict)
     updated: bool = False
 
     def __repr__(self) -> str:
@@ -37,7 +37,7 @@ class Package:
         return self._get_path(path_str)
 
     @property
-    def path_install(self) -> list[Path]:
+    def path_install(self) -> List[Path]:
         """
         List of paths to install with pip.
         """
@@ -53,7 +53,7 @@ class Package:
         return self.config_path.parent / path
 
     @classmethod
-    def deserialize(cls: type[_R], config_path: Path, data: dict[str, Any]) -> _R:
+    def deserialize(cls: Type[_R], config_path: Path, data: Dict[str, Any]) -> _R:
         """
         Load package from config data.
         """
@@ -79,7 +79,7 @@ class Package:
             if self.checks[check]:
                 yield check
 
-    def serialize(self) -> dict[str, Any]:
+    def serialize(self) -> Dict[str, Any]:
         """
         Serialize package to config data.
         """
@@ -98,13 +98,13 @@ class Package:
                 del data[key]
         return data
 
-    def get_snapshot(self, name: str) -> list[str]:
+    def get_snapshot(self, name: str) -> List[str]:
         """
         Get snapshot data by check name.
         """
         return self.snapshots.get(name, "").strip().splitlines()
 
-    def set_snapshot(self, name: str, data: list[str]) -> None:
+    def set_snapshot(self, name: str, data: Iterable[str]) -> None:
         """
         Set snapshot data by check name.
         """

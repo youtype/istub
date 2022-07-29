@@ -9,6 +9,7 @@ class MypyCheck(BaseCheck):
     """
     Check package with mypy.
     """
+
     NAME = "mypy"
 
     def run(self) -> str:

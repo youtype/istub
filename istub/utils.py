@@ -3,14 +3,15 @@ String utils.
 """
 import re
 import sys
-from functools import cache
+from functools import lru_cache
 from pathlib import Path
+from typing import List
 
 HASH_RE = re.compile(r"0x[0-9a-f]{12}")
 
 
-@cache
-def get_replace_paths() -> list[str]:
+@lru_cache()
+def get_replace_paths() -> List[str]:
     """
     Generate a list of paths to replace in snapshot.
     """
@@ -21,7 +22,7 @@ def get_replace_paths() -> list[str]:
     return result
 
 
-def cleanup_output(data: list[str]) -> list[str]:
+def cleanup_output(data: List[str]) -> List[str]:
     """
     Replace hashes and paths in output.
     """

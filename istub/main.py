@@ -4,6 +4,7 @@ Main API entrypoint.
 """
 import logging
 import shlex
+from typing import List
 
 from istub.cli import CLINamespace, parse_args
 from istub.config import Config
@@ -58,7 +59,7 @@ def check_packages(config: Config, args: CLINamespace) -> None:
     Check packages.
     """
     logger = logging.getLogger(LOGGER_NAME)
-    errors: list[CheckFailedError] = []
+    errors: List[CheckFailedError] = []
     for check in config.iterate_package_checks():
         logger.info(f"Checking {check.package.name} with {check.NAME}...")
         try:

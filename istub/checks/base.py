@@ -3,8 +3,8 @@ Base class for all checks.
 """
 import difflib
 import logging
-import shlex
 from abc import ABC, abstractmethod
+from typing import Iterable, List, Sequence
 
 from istub.constants import LOGGER_NAME
 from istub.exceptions import CheckFailedError
@@ -41,7 +41,7 @@ class BaseCheck(ABC):
     def run(self) -> str:
         pass
 
-    def get_diff(self, data: list[str]) -> list[str]:
+    def get_diff(self, data: List[str]) -> List[str]:
         """
         Compare tool output with a snapshot.
         """
@@ -55,14 +55,14 @@ class BaseCheck(ABC):
 
     def get_call_output(
         self,
-        cmd: list[str],
+        cmd: Sequence[str],
         capture_stderr: bool = False,
         raise_errors: bool = False,
     ) -> str:
         """
         Run a command and return its output.
         """
-        self.logger.debug(shlex.join(cmd))
+        self.logger.debug(" ".join(cmd))
         return get_call_output(cmd, capture_stderr, raise_errors)
 
     @property
@@ -72,7 +72,7 @@ class BaseCheck(ABC):
         """
         return get_python_path_str()
 
-    def set_snapshot(self, data: list[str]) -> None:
+    def set_snapshot(self, data: Iterable[str]) -> None:
         """
         Set snapshot data.
         """

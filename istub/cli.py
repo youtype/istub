@@ -5,6 +5,7 @@ import argparse
 import logging
 from dataclasses import dataclass
 from pathlib import Path
+from typing import List
 
 from istub.checks import CHECKS_MAP
 from istub.config import Config
@@ -22,8 +23,8 @@ class CLINamespace:
     exitfirst: bool
     log_level: int
     config: Config
-    packages: list[str]
-    checks: list[str]
+    packages: List[str]
+    checks: List[str]
 
 
 def load_config(path_str: str) -> Config:

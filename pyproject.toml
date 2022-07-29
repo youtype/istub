@@ -2,7 +2,6 @@
 line-length = 100
 include = '(istub)/.*\.pyi?$'
 target-version = [
-    'py36',
     'py37',
     'py38',
     'py39',
@@ -56,7 +55,7 @@ istub = 'istub.main:main'
 "Bug Tracker" = "https://github.com/youtype/istub/issues"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.7"
 pip = "*"
 pyyaml = "*"
 
@@ -91,4 +90,4 @@ reportMissingTypeArgument = "error"
 reportIncompatibleMethodOverride = "error"
 reportIncompatibleVariableOverride = "error"
 reportUnknownParameterType = "error"
-pythonVersion = "3.10"
+pythonVersion = "3.7"

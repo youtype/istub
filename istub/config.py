@@ -3,7 +3,7 @@ iStub config.
 """
 import itertools
 from pathlib import Path
-from typing import Any, Iterable, Iterator, TypeVar
+from typing import Any, Dict, Iterable, Iterator, List, TypeVar
 
 from istub.checks import CHECKS_MAP
 from istub.checks.base import BaseCheck
@@ -22,7 +22,7 @@ class Config:
 
     def __init__(self, path: Path) -> None:
         self.path = path
-        self.enabled_check_names: list[str] = list(CHECKS_MAP)
+        self.enabled_check_names: List[str] = list(CHECKS_MAP)
         try:
             self.data = loads(path.read_text())
         except Exception as e:
@@ -34,7 +34,7 @@ class Config:
         self._map = {i.name: i for i in self._packages}
         self.packages = list(self._packages)
 
-    def _uniq_lists(self, lists: Iterable[list[_V]]) -> list[_V]:
+    def _uniq_lists(self, lists: Iterable[List[_V]]) -> List[_V]:
         result = []
         for item in itertools.chain.from_iterable(lists):
             if item not in result:
@@ -42,28 +42,28 @@ class Config:
         return result
 
     @property
-    def pip_install(self) -> list[str]:
+    def pip_install(self) -> List[str]:
         """
         List of pip install packages.
         """
         return self._uniq_lists([i.pip_install for i in self.packages])
 
     @property
-    def pip_uninstall(self) -> list[str]:
+    def pip_uninstall(self) -> List[str]:
         """
         List of pip uninstall packages.
         """
         return self._uniq_lists([i.pip_uninstall for i in self.packages])
 
     @property
-    def path_install(self) -> list[Path]:
+    def path_install(self) -> List[Path]:
         """
         List of paths to install with pip.
         """
         return self._uniq_lists([i.path_install for i in self.packages])
 
     @property
-    def build(self) -> list[str]:
+    def build(self) -> List[str]:
         """
         List of commands to build packages.
         """
@@ -89,7 +89,7 @@ class Config:
         """
         self.enabled_check_names = list(names)
 
-    def serialize(self) -> dict[str, Any]:
+    def serialize(self) -> Dict[str, Any]:
         """
         Serialize config to dict.
         """

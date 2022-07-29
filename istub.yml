@@ -114,6 +114,12 @@ packages:
         Runtime:
         <botocore.utils.CachedProperty object at HASH>
 
+        error: botocore.httpsession.IPV6_ADDRZ_RE is not present in stub
+        Stub:
+        MISSING
+        Runtime:
+        re.compile('^\\[(?:(?:[0-9A-Fa-f]{1,4}:){6}(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:[0-9]{1,3}\\.)...
+
         error: botocore.model.ListShape.member is inconsistent, cannot reconcile @property on stub with runtime object
         Stub: at line 48
         def (self: botocore.model.ListShape) -> botocore.model.Shape
@@ -431,6 +437,12 @@ packages:
         def (self: botocore.model.ServiceModel) -> builtins.str
         Runtime:
         <botocore.utils.CachedProperty object at HASH>
+
+        error: botocore.utils.CHECKSUM_HEADER_PATTERN is not present in stub
+        Stub:
+        MISSING
+        Runtime:
+        re.compile('^X-Amz-Checksum-([a-z0-9]*)$', re.IGNORECASE)
 
         error: botocore.docs failed to find stubs
         Stub:

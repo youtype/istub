@@ -21,14 +21,10 @@ def pip_install(config: Config) -> None:
     logger = logging.getLogger(LOGGER_NAME)
     if config.pip_uninstall:
         logger.info("Uninstalling pip packages...")
-        command = [sys.executable, "-m", "pip", "uninstall", "-y", *config.pip_uninstall]
-        logger.debug(shlex.join(command))
-        check_call(command)
+        check_call([sys.executable, "-m", "pip", "uninstall", "-y", *config.pip_uninstall])
     if config.pip_install:
         logger.info("Installing pip requirements...")
-        command = [sys.executable, "-m", "pip", "install", "-y", *config.pip_install]
-        logger.debug(shlex.join(command))
-        check_call(command)
+        check_call([sys.executable, "-m", "pip", "install", "-y", *config.pip_install])
 
 
 def path_install(config: Config) -> None:
@@ -42,9 +38,7 @@ def path_install(config: Config) -> None:
     logger.info("Installing requirements...")
     for path_package in config.path_install:
         logger.debug(f"Installing {path_package.as_posix()}")
-        command = [sys.executable, "-m", "pip", "install", "-y", path_package.as_posix()]
-        logger.debug(shlex.join(command))
-        check_call(command)
+        check_call([sys.executable, "-m", "pip", "install", "-y", path_package.as_posix()])
 
 
 def build(config: Config) -> None:
@@ -54,8 +48,10 @@ def build(config: Config) -> None:
     logger = logging.getLogger(LOGGER_NAME)
     logger.info("Building requirements...")
     for build_cmd in config.build:
-        logger.debug(f"Running {build_cmd}")
-        check_call(shlex.split(build_cmd))
+        command = shlex.split(build_cmd)
+        if command and command[0] == "python":
+            command[0] = sys.executable
+        check_call(command)
 
 
 def check_packages(config: Config, args: CLINamespace) -> None:

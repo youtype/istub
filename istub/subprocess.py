@@ -1,4 +1,5 @@
 import logging
+import shlex
 import subprocess
 import tempfile
 from pathlib import Path
@@ -7,12 +8,14 @@ from istub.constants import LOGGER_NAME
 from istub.exceptions import SubprocessError
 
 
-def check_call(cmd: list[str]) -> None:
+def check_call(command: list[str]) -> None:
     """
     Check command exit code and output on error.
     """
+    logger = logging.getLogger(LOGGER_NAME)
+    logger.debug(shlex.join(command))
     try:
-        subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+        subprocess.check_output(command, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as e:
         logger = logging.getLogger(LOGGER_NAME)
         for line in e.output.decode().splitlines():

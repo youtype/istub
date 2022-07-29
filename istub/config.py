@@ -9,6 +9,7 @@ from istub.checks import CHECKS_MAP
 from istub.checks.base import BaseCheck
 from istub.exceptions import ConfigError
 from istub.package import Package
+from istub.utils import get_python_path_str
 from istub.yaml import dumps, loads
 
 _V = TypeVar("_V")
@@ -115,3 +116,10 @@ class Config:
                     continue
 
                 yield CHECKS_MAP[check_name](package)
+
+    @property
+    def python_path(self) -> str:
+        """
+        Python executable path.
+        """
+        return get_python_path_str()

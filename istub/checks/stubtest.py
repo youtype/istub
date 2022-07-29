@@ -1,7 +1,14 @@
+"""
+Check package with mypy.stubtest.
+"""
 from istub.checks.base import BaseCheck
 
 
 class StubtestCheck(BaseCheck):
+    """
+    Check package with mypy.stubtest.
+    """
+
     NAME = "stubtest"
 
     def run(self) -> str:

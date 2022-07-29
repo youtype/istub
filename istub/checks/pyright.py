@@ -1,9 +1,16 @@
+"""
+Check package with pyright.
+"""
 import json
 
 from istub.checks.base import BaseCheck
 
 
 class PyrightCheck(BaseCheck):
+    """
+    Check package with pyright.
+    """
+
     NAME = "pyright"
 
     def run(self) -> str:

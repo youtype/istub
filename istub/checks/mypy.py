@@ -1,8 +1,14 @@
+"""
+Check package with mypy.
+"""
 from istub.checks.base import BaseCheck
 from istub.exceptions import SubprocessError
 
 
 class MypyCheck(BaseCheck):
+    """
+    Check package with mypy.
+    """
     NAME = "mypy"
 
     def run(self) -> str:

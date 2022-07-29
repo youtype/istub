@@ -1,3 +1,6 @@
+"""
+String utils.
+"""
 import re
 import sys
 from functools import cache
@@ -19,6 +22,9 @@ def get_replace_paths() -> list[str]:
 
 
 def cleanup_output(data: list[str]) -> list[str]:
+    """
+    Replace hashes and paths in output.
+    """
     result = []
     for line in data:
         line = HASH_RE.sub("HASH", line)
@@ -50,3 +56,10 @@ def shorten_path(path: Path) -> str:
         return short_path_str
 
     return f"./{short_path_str}"
+
+
+def get_python_path_str() -> str:
+    """
+    Return python executable path.
+    """
+    return shorten_path(Path(sys.executable))

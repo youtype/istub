@@ -1,3 +1,6 @@
+"""
+Utils for subprocess calls.
+"""
 import logging
 import shlex
 import subprocess

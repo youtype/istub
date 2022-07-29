@@ -4,7 +4,6 @@ Main API entrypoint.
 """
 import logging
 import shlex
-import sys
 
 from istub.cli import CLINamespace, parse_args
 from istub.config import Config
@@ -21,10 +20,10 @@ def pip_install(config: Config) -> None:
     logger = logging.getLogger(LOGGER_NAME)
     if config.pip_uninstall:
         logger.info("Uninstalling pip packages...")
-        check_call([sys.executable, "-m", "pip", "uninstall", "-y", *config.pip_uninstall])
+        check_call([config.python_path, "-m", "pip", "uninstall", "-y", *config.pip_uninstall])
     if config.pip_install:
         logger.info("Installing pip requirements...")
-        check_call([sys.executable, "-m", "pip", "install", "-y", *config.pip_install])
+        check_call([config.python_path, "-m", "pip", "install", "-y", *config.pip_install])
 
 
 def path_install(config: Config) -> None:
@@ -38,7 +37,7 @@ def path_install(config: Config) -> None:
     logger.info("Installing requirements...")
     for path_package in config.path_install:
         logger.debug(f"Installing {path_package.as_posix()}")
-        check_call([sys.executable, "-m", "pip", "install", "-y", path_package.as_posix()])
+        check_call([config.python_path, "-m", "pip", "install", "-y", path_package.as_posix()])
 
 
 def build(config: Config) -> None:
@@ -50,7 +49,7 @@ def build(config: Config) -> None:
     for build_cmd in config.build:
         command = shlex.split(build_cmd)
         if command and command[0] == "python":
-            command[0] = sys.executable
+            command[0] = config.python_path
         check_call(command)
 
 

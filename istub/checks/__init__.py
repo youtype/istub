@@ -1,3 +1,6 @@
+"""
+Checks catalogue.
+"""
 from istub.checks.base import BaseCheck
 from istub.checks.flake8 import Flake8Check
 from istub.checks.mypy import MypyCheck

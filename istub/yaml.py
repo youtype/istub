@@ -1,3 +1,6 @@
+"""
+YAML utils.
+"""
 from typing import Any
 
 import yaml
@@ -12,11 +15,17 @@ class MyDumper(SafeDumper):
     """
 
     def represent_data(self, data: Any) -> Node:
+        """
+        Proxy for represent_data to handle strings properly.
+        """
         if isinstance(data, str):
             return self.represent_str(data)
         return super().represent_data(data)
 
     def represent_str(self, data: str) -> ScalarNode:
+        """
+        Represent strings as multiline strings.
+        """
         if "\n" in data:
             return self.represent_scalar("tag:yaml.org,2002:str", data, style="|")
         return super().represent_str(data)
@@ -30,6 +39,9 @@ class MyDumper(SafeDumper):
 
 
 def dumps(data: Any) -> str:
+    """
+    Dump data to YAML string.
+    """
     return yaml.dump(
         data,
         Dumper=MyDumper,
@@ -40,4 +52,7 @@ def dumps(data: Any) -> str:
 
 
 def loads(data: str) -> Any:
+    """
+    Load data from YAML string.
+    """
     return yaml.load(data, Loader=SafeLoader)

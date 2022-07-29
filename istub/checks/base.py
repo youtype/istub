@@ -1,18 +1,23 @@
+"""
+Base class for all checks.
+"""
 import difflib
 import logging
 import shlex
-import sys
 from abc import ABC, abstractmethod
-from pathlib import Path
 
 from istub.constants import LOGGER_NAME
 from istub.exceptions import CheckFailedError
 from istub.package import Package
 from istub.subprocess import get_call_output
-from istub.utils import cleanup_output, shorten_path
+from istub.utils import cleanup_output, get_python_path_str
 
 
 class BaseCheck(ABC):
+    """
+    Base class for all checks.
+    """
+
     NAME = "base"
 
     def __init__(self, package: Package) -> None:
@@ -65,7 +70,7 @@ class BaseCheck(ABC):
         """
         Python executable path.
         """
-        return shorten_path(Path(sys.executable))
+        return get_python_path_str()
 
     def set_snapshot(self, data: list[str]) -> None:
         """

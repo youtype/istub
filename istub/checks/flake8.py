@@ -1,7 +1,14 @@
+"""
+Check package with flake8.
+"""
 from istub.checks.base import BaseCheck
 
 
 class Flake8Check(BaseCheck):
+    """
+    Check package with flake8.
+    """
+
     NAME = "flake8"
 
     def run(self) -> str:

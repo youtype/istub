@@ -3,8 +3,10 @@ iStub config.
 """
 import itertools
 from pathlib import Path
-from typing import Any, Iterable, TypeVar
+from typing import Any, Iterable, Iterator, TypeVar
 
+from istub.checks import CHECKS_MAP
+from istub.checks.base import BaseCheck
 from istub.exceptions import ConfigError
 from istub.package import Package
 from istub.yaml import dumps, loads
@@ -19,6 +21,7 @@ class Config:
 
     def __init__(self, path: Path) -> None:
         self.path = path
+        self.enabled_check_names: list[str] = list(CHECKS_MAP)
         try:
             self.data = loads(path.read_text())
         except Exception as e:
@@ -73,11 +76,17 @@ class Config:
             raise ConfigError(f"Package {name} not found")
         return self._map[name]
 
-    def filter(self, names: Iterable[str]) -> None:
+    def filter_packages(self, names: Iterable[str]) -> None:
         """
         Filter packages by names.
         """
         self.packages = [self.get(i) for i in names]
+
+    def filter_checks(self, names: Iterable[str]) -> None:
+        """
+        Filter packages by names.
+        """
+        self.enabled_check_names = list(names)
 
     def serialize(self) -> dict[str, Any]:
         """
@@ -98,3 +107,11 @@ class Config:
         Save config to file.
         """
         self.path.write_text(dumps(self.serialize()))
+
+    def iterate_package_checks(self) -> Iterator[BaseCheck]:
+        for package in self.packages:
+            for check_name in package.enabled_checks:
+                if check_name not in self.enabled_check_names:
+                    continue
+
+                yield CHECKS_MAP[check_name](package)

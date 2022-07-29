@@ -29,3 +29,13 @@ class CheckFailedError(Exception):
         super().__init__(message)
         self.diff = list(diff)
         self.data = list(data)
+
+
+class RunFailedError(Exception):
+    """
+    Exception for runf ailed due to mismatch.
+    """
+
+    def __init__(self, message: str, errors: Iterable[CheckFailedError]) -> None:
+        super().__init__(message)
+        self.errors = list(errors)

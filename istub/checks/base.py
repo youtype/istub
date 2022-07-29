@@ -43,7 +43,10 @@ class BaseCheck(ABC):
         old_data = self.package.get_snapshot(self.NAME)
         if data == old_data:
             return []
-        return list(difflib.ndiff(old_data, data))
+
+        differ = difflib.Differ()
+        diff = differ.compare(old_data, data)
+        return [i for i in diff if i.startswith("-") or i.startswith("+")]
 
     def get_call_output(
         self,
@@ -63,3 +66,9 @@ class BaseCheck(ABC):
         Python executable path.
         """
         return shorten_path(Path(sys.executable))
+
+    def set_snapshot(self, data: list[str]) -> None:
+        """
+        Set snapshot data.
+        """
+        self.package.set_snapshot(self.NAME, data)

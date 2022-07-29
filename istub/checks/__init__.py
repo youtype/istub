@@ -4,9 +4,9 @@ from istub.checks.mypy import MypyCheck
 from istub.checks.pyright import PyrightCheck
 from istub.checks.stubtest import StubtestCheck
 
-CHECKS: list[type[BaseCheck]] = [
-    Flake8Check,
-    StubtestCheck,
-    PyrightCheck,
-    MypyCheck,
-]
+CHECKS_MAP: dict[str, type[BaseCheck]] = {
+    Flake8Check.NAME: Flake8Check,
+    StubtestCheck.NAME: StubtestCheck,
+    PyrightCheck.NAME: PyrightCheck,
+    MypyCheck.NAME: MypyCheck,
+}

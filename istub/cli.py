@@ -6,8 +6,7 @@ import logging
 from dataclasses import dataclass
 from pathlib import Path
 
-from istub.checks import CHECKS
-from istub.checks.base import BaseCheck
+from istub.checks import CHECKS_MAP
 from istub.config import Config
 
 
@@ -20,10 +19,11 @@ class CLINamespace:
     build: bool
     install: bool
     update: bool
+    exitfirst: bool
     log_level: int
     config: Config
     packages: list[str]
-    checks: list[type[BaseCheck]]
+    checks: list[str]
 
 
 def load_config(path_str: str) -> Config:
@@ -36,17 +36,6 @@ def load_config(path_str: str) -> Config:
     return Config(path)
 
 
-def get_check_cls(name: str) -> type[BaseCheck]:
-    """
-    Get check class by name.
-    """
-    for check in CHECKS:
-        if check.NAME == name:
-            return check
-    choices = ", ".join(check.NAME for check in CHECKS)
-    raise argparse.ArgumentTypeError(f"Invalid check {name}, choices are: {choices}")
-
-
 def parse_args() -> CLINamespace:
     """
     CLI parser.
@@ -55,6 +44,9 @@ def parse_args() -> CLINamespace:
     parser.add_argument("-b", "--build", action="store_true", help="Generate packages")
     parser.add_argument("-i", "--install", action="store_true", help="Install packages")
     parser.add_argument("-u", "--update", action="store_true", help="Update snapshots")
+    parser.add_argument(
+        "-x", "--exitfirst", action="store_true", help="Exit on first check failure"
+    )
     parser.add_argument(
         "-c",
         "--config",
@@ -65,8 +57,8 @@ def parse_args() -> CLINamespace:
     parser.add_argument(
         "--checks",
         nargs="*",
-        type=get_check_cls,
-        default=CHECKS,
+        default=[],
+        choices=list(CHECKS_MAP),
         help="Checks to run",
     )
     parser.add_argument("-d", "--debug", action="store_true", help="Verbose output")
@@ -81,6 +73,7 @@ def parse_args() -> CLINamespace:
         build=args.build,
         install=args.install,
         update=args.update,
+        exitfirst=args.exitfirst,
         packages=args.packages,
         log_level=logging.DEBUG if args.debug else logging.INFO,
         checks=args.checks,

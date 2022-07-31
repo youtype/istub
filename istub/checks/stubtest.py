@@ -17,3 +17,15 @@ class StubtestCheck(BaseCheck):
             capture_stderr=False,
         )
         return "\n".join(output.splitlines()[:-1])
+
+    def is_ignored_line_diff(self, line: str) -> bool:
+        """
+        Whether line is ignored in diff.
+        """
+        if super().is_ignored_line_diff(line):
+            return True
+
+        if "at line" in line:
+            return True
+
+        return False

@@ -51,7 +51,7 @@ class BaseCheck(ABC):
 
         differ = difflib.Differ()
         diff = differ.compare(old_data, data)
-        return [i for i in diff if i.startswith("-") or i.startswith("+")]
+        return [i for i in diff if not self.is_ignored_line_diff(i)]
 
     def get_call_output(
         self,
@@ -77,3 +77,11 @@ class BaseCheck(ABC):
         Set snapshot data.
         """
         self.package.set_snapshot(self.NAME, data)
+
+    def is_ignored_line_diff(self, line: str) -> bool:
+        """
+        Whether line is ignored in diff.
+        """
+        if line.startswith("+") or line.startswith("-"):
+            return False
+        return True

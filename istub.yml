@@ -1,8 +1,23 @@
 packages:
-  - name: botocore
+  - name: s3transfer
     checks:
       stubtest: true
     snapshots:
       stubtest: |-
-        error: not checking stubs due to mypy build errors:
-        ./botocore-stubs/crt/auth.pyi:4: error: Skipping analyzing "awscrt.auth": module is installed, but missing library stubs or py.typed marker
+        error: s3transfer.compat.BaseManager.shutdown is not present at runtime
+        Stub: at line 152
+        def (self: multiprocessing.managers.BaseManager)
+        Runtime:
+        MISSING
+
+        error: s3transfer.processpool.BaseManager.shutdown is not present at runtime
+        Stub: at line 152
+        def (self: multiprocessing.managers.BaseManager)
+        Runtime:
+        MISSING
+
+        error: s3transfer.processpool.TransferMonitorManager.TransferMonitor is not present in stub
+        Stub:
+        MISSING
+        Runtime: at line 722 in file ./multiprocessing/managers.py
+        <function BaseManager.register.<locals>.temp at HASH>

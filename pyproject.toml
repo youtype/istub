@@ -63,7 +63,6 @@ pip = "*"
 pyyaml = "*"
 
 [tool.poetry.dev-dependencies]
-awscrt = "*"
 isort = "*"
 mypy = "*"
 black = "*"
@@ -71,8 +70,10 @@ flake8 = "*"
 vulture = "*"
 twine = "*"
 types-pyyaml = "*"
-botocore = "*"
+s3transfer = "*"
+awscrt = "*"
 botocore-stubs = "*"
+types-s3transfer = "*"
 types-requests = "*"
 
 [build-system]

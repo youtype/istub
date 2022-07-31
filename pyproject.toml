@@ -63,6 +63,7 @@ pip = "*"
 pyyaml = "*"
 
 [tool.poetry.dev-dependencies]
+awscrt = "*"
 isort = "*"
 mypy = "*"
 black = "*"

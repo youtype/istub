@@ -21,10 +21,10 @@ def pip_install(config: Config) -> None:
     logger = logging.getLogger(LOGGER_NAME)
     if config.pip_uninstall:
         logger.info("Uninstalling pip packages...")
-        check_call([config.python_path, "-m", "pip", "uninstall", "-y", *config.pip_uninstall])
+        check_call([config.python_path, "-m", "pip", "uninstall", *config.pip_uninstall])
     if config.pip_install:
         logger.info("Installing pip requirements...")
-        check_call([config.python_path, "-m", "pip", "install", "-y", *config.pip_install])
+        check_call([config.python_path, "-m", "pip", "install", *config.pip_install])
 
 
 def path_install(config: Config) -> None:
@@ -38,7 +38,7 @@ def path_install(config: Config) -> None:
     logger.info("Installing requirements...")
     for path_package in config.path_install:
         logger.debug(f"Installing {path_package.as_posix()}")
-        check_call([config.python_path, "-m", "pip", "install", "-y", path_package.as_posix()])
+        check_call([config.python_path, "-m", "pip", "install", path_package.as_posix()])
 
 
 def build(config: Config) -> None:

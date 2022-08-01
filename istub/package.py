@@ -108,9 +108,9 @@ class Package:
         """
         Set snapshot data by check name.
         """
+        self.updated = True
         if not data:
             if name in self.snapshots:
                 del self.snapshots[name]
             return
         self.snapshots[name] = "\n".join(data).strip()
-        self.updated = True

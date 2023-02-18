@@ -4,11 +4,11 @@ set -e
 ROOT_PATH=$(dirname $(dirname $0))
 cd $ROOT_PATH
 
-# vulture istub --make-whitelist > vulture_whitelist.txt
-vulture istub vulture_whitelist.txt
+# poetry run vulture istub --make-whitelist > vulture_whitelist.txt
+poetry run vulture istub vulture_whitelist.txt
 
-npx pyright istub
-flake8 istub
-black istub
-isort istub
-mypy istub
+poetry run npx pyright istub
+poetry run flake8 istub
+poetry run black istub
+poetry run isort istub
+poetry run mypy istub

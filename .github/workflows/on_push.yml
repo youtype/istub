@@ -46,4 +46,4 @@ jobs:
           poetry run isort -c istub
       - name: Check istub run
         run: |
-          poetry run istub -bi
+          poetry run istub

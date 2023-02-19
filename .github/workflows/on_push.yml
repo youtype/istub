@@ -44,3 +44,6 @@ jobs:
           poetry run mypy istub
           poetry run black --check istub
           poetry run isort -c istub
+      - name: Check istub run
+        run: |
+          poetry run istub -bi

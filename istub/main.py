@@ -22,7 +22,15 @@ def pip_install(config: Config) -> None:
     if config.pip_uninstall:
         logger.info("Uninstalling pip packages...")
         check_call(
-            [config.python_path, "-m", "pip", "uninstall", "--no-input", *config.pip_uninstall]
+            [
+                config.python_path,
+                "-m",
+                "pip",
+                "uninstall",
+                "--yes",
+                "--no-input",
+                *config.pip_uninstall,
+            ]
         )
     if config.pip_install:
         logger.info("Installing pip requirements...")

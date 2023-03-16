@@ -1082,14 +1082,14 @@ types-urllib3 = "<1.27"
 
 [[package]]
 name = "types-s3transfer"
-version = "0.6.0.post5"
+version = "0.6.0.post6"
 description = "Type annotations and code completion for s3transfer"
 category = "dev"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "types_s3transfer-0.6.0.post5-py3-none-any.whl", hash = "sha256:cfcbee11c16d60af3feb3dbffea3a85b32129235b562912dece310a45ae83a2c"},
-    {file = "types_s3transfer-0.6.0.post5.tar.gz", hash = "sha256:2cf1e07cf4d1a5a2a68d89c654f45d9c3b678d39f7fe03a6f36903b6dbd3bcbc"},
+    {file = "types_s3transfer-0.6.0.post6-py3-none-any.whl", hash = "sha256:03af77eef369a9901422cadf3ad270709876421d8eb445ddbd78a58ac802a464"},
+    {file = "types_s3transfer-0.6.0.post6.tar.gz", hash = "sha256:e05c6d86c2d5271a5170a21f8a0222ca5f2d5b91aad7e9d436cca24c8e1ae13c"},
 ]
 
 [package.dependencies]

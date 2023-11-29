@@ -11,7 +11,7 @@ src_paths = []
 
 [tool.poetry]
 name = "istub"
-version = "0.2.3"
+version = "0.2.4"
 description = "Validator for type annotations"
 authors = ["Vlad Emelianov <vlad.emelianov.nz@gmail.com>"]
 license = "MIT"

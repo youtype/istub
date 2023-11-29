@@ -60,5 +60,6 @@ jobs:
           poetry run mypy istub
           poetry run npx pyright
       - name: Check istub run
+        if: ${{ matrix.check-formatting }}
         run: |
-          poetry run istub
+          poetry run istub -buid

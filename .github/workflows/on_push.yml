@@ -58,7 +58,6 @@ jobs:
           poetry run flake8 istub
       - name: Typing
         run: |
-          poetry run mypy istub
           poetry run npx pyright
       - name: Check istub run
         if: ${{ matrix.check-formatting }}

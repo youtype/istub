@@ -34,7 +34,9 @@ def pip_install(config: Config) -> None:
         )
     if config.pip_install:
         logger.info("Installing pip requirements...")
-        check_call([config.python_path, "-m", "pip", "install", "--no-input", *config.pip_install])
+        check_call(
+            [config.python_path, "-m", "pip", "install", "-U", "--no-input", *config.pip_install]
+        )
 
 
 def path_install(config: Config) -> None:

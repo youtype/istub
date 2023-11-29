@@ -11,37 +11,54 @@ jobs:
   code-style:
     name: Code style
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version:
+          - "3.7"
+          - "3.8"
+          - "3.9"
+          - "3.10"
+          - "3.11"
+          - "3.12"
+        include:
+          - version: "3.11"
+            check-formatting: "true"
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python for Poetry
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: ${{ matrix.version }}
       - name: Install poetry
         run: |
           python -m pip install poetry pip
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: ${{ matrix.version }}
           cache: "poetry"
       - name: Set up Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
       - name: Install dependencies
         run: |
           poetry install -n
       - name: Install Node.js dependencies
         run: |
           npm install -g pyright
+      - name: Code style
+        if: ${{ matrix.check-formatting }}
+        run: |
+          poetry run black --check istub
+          poetry run isort -c istub
       - name: Lint
         run: |
           poetry run flake8 istub
-          poetry run npx pyright istub
+      - name: Typing
+        run: |
           poetry run mypy istub
-          poetry run black --check istub
-          poetry run isort -c istub
+          poetry run npx pyright
       - name: Check istub run
         run: |
           poetry run istub

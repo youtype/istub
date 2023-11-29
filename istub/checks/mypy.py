@@ -1,6 +1,7 @@
 """
 Check package with mypy.
 """
+
 from istub.checks.base import BaseCheck
 from istub.exceptions import SubprocessError
 

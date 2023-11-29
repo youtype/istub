@@ -1,6 +1,7 @@
 """
 Base class for all checks.
 """
+
 import difflib
 import logging
 from abc import ABC, abstractmethod

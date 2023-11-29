@@ -1,6 +1,7 @@
 """
 Check package with flake8.
 """
+
 from istub.checks.base import BaseCheck
 
 

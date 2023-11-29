@@ -1,6 +1,7 @@
 """
 Check package with mypy.stubtest.
 """
+
 from istub.checks.base import BaseCheck
 
 

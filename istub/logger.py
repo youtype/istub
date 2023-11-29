@@ -1,6 +1,7 @@
 """
 Logging setup.
 """
+
 import logging
 
 from istub.constants import LOGGER_NAME

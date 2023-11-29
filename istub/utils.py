@@ -1,6 +1,7 @@
 """
 String utils.
 """
+
 import re
 import sys
 from functools import lru_cache

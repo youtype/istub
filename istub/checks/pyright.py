@@ -1,6 +1,7 @@
 """
 Check package with pyright.
 """
+
 import json
 
 from istub.checks.base import BaseCheck

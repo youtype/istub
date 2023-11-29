@@ -1,6 +1,7 @@
 """
 YAML utils.
 """
+
 from typing import Any
 
 import yaml

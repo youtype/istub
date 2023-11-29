@@ -1,6 +1,7 @@
 """
 Stubs package data.
 """
+
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List, Type, TypeVar

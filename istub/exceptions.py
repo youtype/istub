@@ -1,6 +1,7 @@
 """
 iStub exceptions.
 """
+
 from typing import Iterable
 
 

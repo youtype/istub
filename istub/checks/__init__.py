@@ -1,6 +1,7 @@
 """
 Checks catalogue.
 """
+
 from typing import Dict, Type
 
 from istub.checks.base import BaseCheck

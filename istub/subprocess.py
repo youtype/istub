@@ -32,6 +32,9 @@ def get_call_output(
     capture_stderr: bool = False,
     raise_errors: bool = False,
 ) -> str:
+    """
+    Run a command and return its output.
+    """
     with tempfile.NamedTemporaryFile("w+b") as f:
         try:
             subprocess.check_call(
@@ -39,10 +42,10 @@ def get_call_output(
                 stderr=f if capture_stderr else subprocess.DEVNULL,
                 stdout=f,
             )
-        except subprocess.CalledProcessError:
+        except subprocess.CalledProcessError as e:
             if raise_errors:
                 result = Path(f.name).read_text()
-                raise SubprocessError(result)
+                raise SubprocessError(result) from e
 
         result = Path(f.name).read_text()
 

@@ -21,20 +21,22 @@ def pip_install(config: Config) -> None:
     logger = logging.getLogger(LOGGER_NAME)
     if config.pip_uninstall:
         logger.info("Uninstalling pip packages...")
-        check_call([
-            config.python_path,
-            "-m",
-            "pip",
-            "uninstall",
-            "--yes",
-            "--no-input",
-            *config.pip_uninstall,
-        ])
+        check_call(
+            [
+                config.python_path,
+                "-m",
+                "pip",
+                "uninstall",
+                "--yes",
+                "--no-input",
+                *config.pip_uninstall,
+            ]
+        )
     if config.pip_install:
         logger.info("Installing pip requirements...")
-        check_call([
-            config.python_path, "-m", "pip", "install", "-U", "--no-input", *config.pip_install
-        ])
+        check_call(
+            [config.python_path, "-m", "pip", "install", "-U", "--no-input", *config.pip_install]
+        )
 
 
 def path_install(config: Config) -> None:
@@ -48,9 +50,9 @@ def path_install(config: Config) -> None:
     logger.info("Installing requirements...")
     for path_package in config.path_install:
         logger.debug(f"Installing {path_package.as_posix()}")
-        check_call([
-            config.python_path, "-m", "pip", "install", "--no-input", path_package.as_posix()
-        ])
+        check_call(
+            [config.python_path, "-m", "pip", "install", "--no-input", path_package.as_posix()]
+        )
 
 
 def build(config: Config) -> None:
@@ -95,7 +97,7 @@ def check_packages(config: Config, args: CLINamespace) -> None:
 
 def main() -> None:
     """
-    Main CLI entrypoint.
+    Entry point for the main CLI.
     """
     try:
         main_api()
@@ -111,7 +113,7 @@ def main() -> None:
 
 def main_api() -> None:
     """
-    Main API entrypoint.
+    Entry point for the main API.
     """
     args = parse_args()
     logger = setup_logging(args.log_level)

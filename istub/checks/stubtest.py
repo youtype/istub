@@ -13,6 +13,9 @@ class StubtestCheck(BaseCheck):
     NAME = "stubtest"
 
     def run(self) -> str:
+        """
+        Run the check using mypy.stubtest.
+        """
         output = self.get_call_output(
             [self.python_path, "-m", "mypy.stubtest", self.package.name],
             capture_stderr=False,

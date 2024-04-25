@@ -26,6 +26,9 @@ class BaseCheck(ABC):
         self.logger = logging.getLogger(LOGGER_NAME)
 
     def check(self) -> None:
+        """
+        Run the check and raise an exception if it fails.
+        """
         output = self.run()
         output_lines = cleanup_output(output.splitlines())
         diff = self.get_diff(output_lines)
@@ -40,7 +43,9 @@ class BaseCheck(ABC):
 
     @abstractmethod
     def run(self) -> str:
-        pass
+        """
+        Run the check and return its output.
+        """
 
     def get_diff(self, data: List[str]) -> List[str]:
         """

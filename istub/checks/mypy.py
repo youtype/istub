@@ -14,6 +14,9 @@ class MypyCheck(BaseCheck):
     NAME = "mypy"
 
     def run(self) -> str:
+        """
+        Run mypy check on the package.
+        """
         try:
             self.get_call_output(
                 [

@@ -8,7 +8,4 @@ cd $ROOT_PATH
 poetry run vulture istub vulture_whitelist.txt
 
 poetry run npx pyright istub
-poetry run flake8 istub
-poetry run black istub
-poetry run isort istub
-poetry run mypy istub
+poetry run ruff check istub

@@ -15,6 +15,9 @@ class PyrightCheck(BaseCheck):
     NAME = "pyright"
 
     def run(self) -> str:
+        """
+        Run the Pyright check on the package.
+        """
         command = ["npx", "pyright", self.package.path.as_posix(), "--outputjson"]
         output = self.get_call_output(command, capture_stderr=False)
         try:

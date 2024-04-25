@@ -13,6 +13,9 @@ class Flake8Check(BaseCheck):
     NAME = "flake8"
 
     def run(self) -> str:
+        """
+        Run the flake8 check on the package.
+        """
         return self.get_call_output(
             [
                 self.python_path,

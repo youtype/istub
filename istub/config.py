@@ -27,11 +27,11 @@ class Config:
         try:
             self.data = loads(path.read_text())
         except Exception as e:
-            raise ConfigError(f"Cannot read config: {e}")
+            raise ConfigError(f"Cannot read config: {e}") from e
         try:
             self._packages = [Package.deserialize(self.path, i) for i in self.data["packages"]]
         except ValueError as e:
-            raise ConfigError(e)
+            raise ConfigError(e) from e
         self._map = {i.name: i for i in self._packages}
         self.packages = list(self._packages)
 
@@ -111,6 +111,9 @@ class Config:
         self.path.write_text(dumps(self.serialize()))
 
     def iterate_package_checks(self) -> Iterator[BaseCheck]:
+        """
+        Iterate over the enabled package checks.
+        """
         for package in self.packages:
             for check_name in package.enabled_checks:
                 if check_name not in self.enabled_check_names:

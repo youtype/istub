@@ -21,19 +21,15 @@ jobs:
           - "3.11"
           - "3.12"
         include:
-          - version: "3.11"
+          - version: "3.12"
             check-formatting: "true"
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python for Poetry
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.version }}
       - name: Install poetry
         run: |
-          python -m pip install poetry pip
+          pipx install poetry
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.version }}
           cache: "poetry"
@@ -55,7 +51,7 @@ jobs:
           poetry run isort -c istub
       - name: Lint
         run: |
-          poetry run flake8 istub
+          poetry run ruff check istub
       - name: Typing
         run: |
           poetry run npx pyright

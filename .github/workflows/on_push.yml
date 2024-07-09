@@ -33,17 +33,10 @@ jobs:
         with:
           python-version: ${{ matrix.version }}
           cache: "poetry"
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
       - name: Install dependencies
         run: |
           poetry install -n
           poetry run pip install flake8
-      - name: Install Node.js dependencies
-        run: |
-          npm install -g pyright
       - name: Code style
         if: ${{ matrix.check-formatting }}
         run: |
@@ -51,10 +44,10 @@ jobs:
           poetry run isort -c istub
       - name: Lint
         run: |
-          poetry run ruff check istub
+          poetry run ruff check istub --output-format github
       - name: Typing
         run: |
-          poetry run npx pyright
+          poetry run pyright
       - name: Check istub run
         if: ${{ matrix.check-formatting }}
         run: |

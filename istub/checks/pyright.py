@@ -13,12 +13,13 @@ class PyrightCheck(BaseCheck):
     """
 
     NAME = "pyright"
+    COMMAND_EXECUTABLE = ("pyright",)
 
     def run(self) -> str:
         """
         Run the Pyright check on the package.
         """
-        command = ["npx", "pyright", self.package.path.as_posix(), "--outputjson"]
+        command = [*self.COMMAND_EXECUTABLE, self.package.path.as_posix(), "--outputjson"]
         output = self.get_call_output(command, capture_stderr=False)
         try:
             errors = json.loads(output).get("generalDiagnostics", [])

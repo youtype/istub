@@ -1,14 +1,3 @@
-[tool.black]
-line-length = 100
-include = '(istub)/.*\.pyi?$'
-target-version = ['py37', 'py38', 'py39', 'py310', 'py311', 'py312']
-preview = true
-
-[tool.isort]
-profile = "black"
-line_length = 100
-src_paths = []
-
 [tool.poetry]
 name = "istub"
 version = "0.2.4"
@@ -58,6 +47,7 @@ pyyaml = "*"
 [tool.poetry.dev-dependencies]
 ruff = { version = "*", python = ">=3.10" }
 vulture = { version = "*", python = ">=3.10" }
+pyright = "*"
 types-pyyaml = "*"
 types-requests = "*"
 

@@ -7,5 +7,6 @@ cd $ROOT_PATH
 # poetry run vulture istub --make-whitelist > vulture_whitelist.txt
 poetry run vulture istub vulture_whitelist.txt
 
-poetry run npx pyright istub
-poetry run ruff check istub
+poetry run pyright
+poetry run ruff check
+poetry run ruff format --check

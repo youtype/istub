@@ -2,10 +2,9 @@
 
 Validator for type annotations.
 
-- [ ] Stubs generation
-- [x] Code style checking with `flake8`
-- [x] Type checking with `mypy` and `pyright`
-- [x] Type consistency checking with `mypy.stubtest`
+- [x] Code style checking with [flake8](https://flake8.pycqa.org/en/latest/) and [ruff](https://github.com/astral-sh/ruff)
+- [x] Type checking with [mypy](https://mypy-lang.org/) and [pyright](https://github.com/microsoft/pyright)
+- [x] Type consistency checking with [mypy.stubtest](https://mypy.readthedocs.io/en/stable/stubtest.html)
 
 ## Usage
 
@@ -47,6 +46,7 @@ packages:
       stubtest: true
       flake8: false
       pyright: false
+      ruff: false
     pip_install:
       - pypi_dependency
       - pypi_dependency2

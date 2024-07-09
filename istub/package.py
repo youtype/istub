@@ -2,11 +2,22 @@
 Stubs package data.
 """
 
+import shlex
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Iterable, Iterator, List, Type, TypeVar
+from typing import Any, Dict, Iterable, Iterator, List, Type, TypeVar, Union
 
 _R = TypeVar("_R", bound="Package")
+
+
+@dataclass
+class CheckConfig:
+    """
+    Check configuration.
+    """
+
+    enabled: bool = False
+    command: Union[List[str], None] = None
 
 
 @dataclass
@@ -18,7 +29,7 @@ class Package:
     name: str
     path_str: str
     config_path: Path
-    checks: Dict[str, bool] = field(default_factory=dict)
+    checks: Dict[str, Union[bool, Dict[str, Any]]] = field(default_factory=dict)
     path_str_install: List[str] = field(default_factory=list)
     pip_install: List[str] = field(default_factory=list)
     pip_uninstall: List[str] = field(default_factory=list)
@@ -71,13 +82,27 @@ class Package:
             snapshots=data.get("snapshots", {}),
         )
 
+    def get_check_config(self, check: str) -> CheckConfig:
+        """
+        Get check config by name.
+        """
+        config = self.checks.get(check, False)
+        if isinstance(config, bool):
+            return CheckConfig(enabled=config)
+
+        return CheckConfig(
+            enabled=config.get("enabled", False),
+            command=shlex.split(config["command"]) if config.get("command") else None,
+        )
+
     @property
     def enabled_checks(self) -> Iterator[str]:
         """
         Iterate over enabled checks in order.
         """
         for check in self.checks:
-            if self.checks[check]:
+            check_config = self.get_check_config(check)
+            if check_config.enabled:
                 yield check
 
     def serialize(self) -> Dict[str, Any]:

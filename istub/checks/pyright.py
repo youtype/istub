@@ -3,6 +3,7 @@ Check package with pyright.
 """
 
 import json
+from typing import Tuple
 
 from istub.checks.base import BaseCheck
 
@@ -13,13 +14,19 @@ class PyrightCheck(BaseCheck):
     """
 
     NAME = "pyright"
-    COMMAND_EXECUTABLE = ("pyright",)
+
+    @property
+    def default_command(self) -> Tuple[str, ...]:
+        """
+        Default command to run the check.
+        """
+        return ("pyright",)
 
     def run(self) -> str:
         """
         Run the Pyright check on the package.
         """
-        command = [*self.COMMAND_EXECUTABLE, self.package.path.as_posix(), "--outputjson"]
+        command = [*self.command, self.package.path.as_posix(), "--outputjson"]
         output = self.get_call_output(command, capture_stderr=False)
         try:
             errors = json.loads(output).get("generalDiagnostics", [])

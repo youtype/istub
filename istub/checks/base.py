@@ -5,11 +5,11 @@ Base class for all checks.
 import difflib
 import logging
 from abc import ABC, abstractmethod
-from typing import Iterable, List, Sequence
+from typing import Iterable, List, Sequence, Tuple
 
 from istub.constants import LOGGER_NAME
 from istub.exceptions import CheckFailedError
-from istub.package import Package
+from istub.package import CheckConfig, Package
 from istub.subprocess import get_call_output
 from istub.utils import cleanup_output, get_python_path_str
 
@@ -24,6 +24,30 @@ class BaseCheck(ABC):
     def __init__(self, package: Package) -> None:
         self.package = package
         self.logger = logging.getLogger(LOGGER_NAME)
+
+    @property
+    def config(self) -> CheckConfig:
+        """
+        Check config.
+        """
+        return self.package.get_check_config(self.NAME)
+
+    @property
+    def default_command(self) -> Tuple[str, ...]:
+        """
+        Default command to run the check.
+        """
+        return ()
+
+    @property
+    def command(self) -> Tuple[str, ...]:
+        """
+        Command to run the check.
+        """
+        if self.config.command:
+            return tuple(self.config.command)
+
+        return self.default_command
 
     def check(self) -> None:
         """

@@ -36,15 +36,14 @@ jobs:
       - name: Install dependencies
         run: |
           poetry install -n
-          poetry run pip install flake8
       - name: Code style
         if: ${{ matrix.check-formatting }}
         run: |
-          poetry run black --check istub
-          poetry run isort -c istub
+          poetry run ruff format --check
       - name: Lint
+        if: ${{ matrix.check-formatting }}
         run: |
-          poetry run ruff check istub --output-format github
+          poetry run ruff check
       - name: Typing
         run: |
           poetry run pyright

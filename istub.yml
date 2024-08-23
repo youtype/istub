@@ -1,4 +1,6 @@
 packages:
+  - name: istub
+    path: ../istub
   - name: s3transfer
     checks:
       stubtest: true

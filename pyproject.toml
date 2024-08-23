@@ -44,12 +44,17 @@ python = "^3.7"
 pip = "*"
 pyyaml = "*"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 ruff = { version = "*", python = ">=3.10" }
 vulture = { version = "*", python = ">=3.10" }
 pyright = "*"
 types-pyyaml = "*"
 types-requests = "*"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = { version = "*", python = ">=3.10" }
+pytest-cov = { version = "*", python = ">=3.10" }
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

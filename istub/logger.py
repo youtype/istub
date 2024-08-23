@@ -1,27 +1,33 @@
 """
-Logging setup.
+Logging utils.
 """
 
 import logging
 
 from istub.constants import LOGGER_NAME
 
+FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+TIME_FORMAT = "%H:%M:%S"
 
-def setup_logging(level: int = 0) -> logging.Logger:
+
+def get_logger(level: int = logging.DEBUG) -> logging.Logger:
     """
-    Get Logger instance.
+    Get default logger.
 
     Arguments:
-        level -- Logging level
+        level -- Python log level
 
     Returns:
-        Created Logger.
+        New or existing logger instance.
     """
     logger = logging.getLogger(LOGGER_NAME)
+    if logger.handlers:
+        return logger
+
     stream_handler = logging.StreamHandler()
-    formatter = logging.Formatter("%(levelname)s %(message)s", datefmt="%H:%M:%S")
-    stream_handler.setFormatter(formatter)
+    stream_handler.setFormatter(logging.Formatter(FORMAT, datefmt=TIME_FORMAT))
     stream_handler.setLevel(level)
     logger.addHandler(stream_handler)
     logger.setLevel(level)
+
     return logger

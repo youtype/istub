@@ -23,6 +23,7 @@ class RuffCheck(BaseCheck):
             self.python_path,
             "-m",
             "ruff",
+            "check",
         )
 
     def run(self) -> str:

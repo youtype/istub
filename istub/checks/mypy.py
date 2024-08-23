@@ -45,4 +45,3 @@ class MypyCheck(BaseCheck):
             return "\n".join(e.data.splitlines()[:-1])
 
         return ""
-        return ""

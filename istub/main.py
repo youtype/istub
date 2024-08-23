@@ -5,13 +5,14 @@ Main API entrypoint.
 
 import logging
 import shlex
-from typing import List
+import sys
+from typing import List, Sequence
 
 from istub.cli import CLINamespace, parse_args
 from istub.config import Config
 from istub.constants import LOGGER_NAME
 from istub.exceptions import CheckFailedError, ConfigError, RunFailedError
-from istub.logger import setup_logging
+from istub.logger import get_logger
 from istub.subprocess import check_call
 
 
@@ -101,7 +102,7 @@ def main() -> None:
     Entry point for the main CLI.
     """
     try:
-        main_api()
+        main_api(sys.argv[1:])
     except ConfigError as e:
         logger = logging.getLogger(LOGGER_NAME)
         logger.error(f"Configuration error: {e}")
@@ -112,25 +113,26 @@ def main() -> None:
         exit(1)
 
 
-def main_api() -> None:
+def main_api(args: Sequence[str]) -> None:
     """
     Entry point for the main API.
     """
-    args = parse_args()
-    logger = setup_logging(args.log_level)
-    config = args.config
-    if args.packages:
-        config.filter_packages(args.packages)
-    if args.checks:
-        config.filter_checks(args.checks)
-    if args.install:
+    cli_namespace = parse_args(args)
+
+    logger = get_logger(cli_namespace.log_level)
+    config = cli_namespace.config
+    if cli_namespace.packages:
+        config.filter_packages(cli_namespace.packages)
+    if cli_namespace.checks:
+        config.filter_checks(cli_namespace.checks)
+    if cli_namespace.install:
         pip_install(config)
-    if args.build and config.build:
+    if cli_namespace.build and config.build:
         build(config)
-    if args.install:
+    if cli_namespace.install:
         path_install(config)
 
-    check_packages(config, args)
+    check_packages(config, cli_namespace)
 
     if config.is_updated():
         logger.info("Saving configuration...")

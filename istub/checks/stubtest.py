@@ -46,4 +46,3 @@ class StubtestCheck(BaseCheck):
             return True
 
         return False
-        return False

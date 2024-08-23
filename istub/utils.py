@@ -11,7 +11,7 @@ from typing import List
 HASH_RE = re.compile(r"0x[0-9a-f]{12}")
 
 
-@lru_cache()
+@lru_cache(maxsize=None)
 def get_replace_paths() -> List[str]:
     """
     Generate a list of paths to replace in snapshot.

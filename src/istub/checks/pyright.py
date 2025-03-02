@@ -39,6 +39,6 @@ class PyrightCheck(BaseCheck):
         messages = []
         for error in errors:
             messages.append(
-                f'{error["file"]}:{error["range"]["start"]["line"]} {error.get("message", "")}'
+                f"{error['file']}:{error['range']['start']['line']} {error.get('message', '')}"
             )
         return "\n".join(messages)

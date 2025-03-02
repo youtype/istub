@@ -4,9 +4,7 @@ set -e
 ROOT_PATH=$(dirname $(dirname $0))
 cd $ROOT_PATH
 
-# poetry run vulture istub --make-whitelist > vulture_whitelist.txt
-poetry run vulture istub vulture_whitelist.txt
+# uvx vulture src/istub --make-whitelist > vulture_whitelist.txt
+uvx pre-commit run --all-files
 
-poetry run pyright
-poetry run ruff check
-poetry run ruff format --check
+# uv run pytest --cov-report html --cov src/istub

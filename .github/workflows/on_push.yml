@@ -19,9 +19,6 @@ jobs:
           - "3.10"
           - "3.11"
           - "3.12"
-        include:
-          - version: "3.12"
-            check-formatting: "true"
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
@@ -39,6 +36,5 @@ jobs:
       - name: Run pre-commit
         run: uvx pre-commit run --all-files
       - name: Check istub run
-        if: ${{ matrix.check-formatting }}
         run: |
-          uv run istub -buid
+          uvx --python ${{ matrix.version }} --with . --with pip istub -buid
